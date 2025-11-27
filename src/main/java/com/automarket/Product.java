@@ -1,47 +1,27 @@
 package com.automarket;
 
-public class Product {
-    private int id;
-    private String name;
-    private double price;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.Entity;
 
-    public Product() {
-    }
+@Entity // 1. Кажемо базі: "Створи для цього таблицю"
+public class Product extends PanacheEntity { // 2. Отримуємо магічні методи (persist, listAll)
 
-    public Product(int id, String name, double price) {
-        this.id = id;
-        this.name = name;
+    // 3. Робимо поля PUBLIC (це фішка Panache, щоб не писати купу геттерів)
+    public String brand;        // Марка (BMW)
+    public String model;        // Модель (X5)
+    public String licensePlate; // Номер (AA0000BB)
+    public double price;        // Ціна за день
+    public boolean isAvailable; // Чи вільна
+
+    // 4. Порожній конструктор (ОБОВ'ЯЗКОВО для бази даних)
+    public Product() {}
+
+    // 5. Зручний конструктор для нас
+    public Product(String brand, String model, String licensePlate, double price) {
+        this.brand = brand;
+        this.model = model;
+        this.licensePlate = licensePlate;
         this.price = price;
-    }
-
-    // Геттери та сеттери
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    // ✅ Добавляем toString()
-    @Override
-    public String toString() {
-        return "Product{id=" + id + ", name='" + name + "', price=" + price + "}";
+        this.isAvailable = true; // За замовчуванням вільна
     }
 }
